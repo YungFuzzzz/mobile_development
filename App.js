@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
+import Card from './components/ProductCard';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -17,42 +18,26 @@ export default function App() {
     <View style={styles.container}>
       <Text style={styles.header}>Garderobe</Text>
       <View style={styles.cardContainer}>
-        <View style={styles.card}>
-          <Image 
-            source={require('./assets/images/vet-bigshapejeans.png')} 
-            style={styles.image} 
-            resizeMode="contain" 
-          />
-          <Text style={styles.title}>VETEMENTS</Text>
-          <Text style={styles.price}>€1290</Text>
-        </View>
-        <View style={styles.card}>
-          <Image 
-            source={require('./assets/images/vet-ovallogohoodie.png')} 
-            style={styles.image} 
-            resizeMode="contain" 
-          />
-          <Text style={styles.title}>VETEMENTS</Text>
-          <Text style={styles.price}>€870</Text>
-        </View>
-        <View style={styles.card}>
-          <Image 
-            source={require('./assets/images/bal-boxinghoodie.png')} 
-            style={styles.image} 
-            resizeMode="contain" 
-          />
-          <Text style={styles.title}>BALENCIAGA</Text>
-          <Text style={styles.price}>€990</Text>
-        </View>
-        <View style={styles.card}>
-          <Image 
-            source={require('./assets/images/bal-10xlsneakers.png')} 
-            style={styles.image} 
-            resizeMode="contain" 
-          />
-          <Text style={styles.title}>BALENCIAGA</Text>
-          <Text style={styles.price}>€1100</Text>
-        </View>
+        <Card 
+          imageSource={require('./assets/images/vet-bigshapejeans.png')} 
+          title="VETEMENTS" 
+          price="€1290" 
+        />
+        <Card 
+          imageSource={require('./assets/images/vet-ovallogohoodie.png')} 
+          title="VETEMENTS" 
+          price="€870" 
+        />
+        <Card 
+          imageSource={require('./assets/images/bal-boxinghoodie.png')} 
+          title="BALENCIAGA" 
+          price="€990" 
+        />
+        <Card 
+          imageSource={require('./assets/images/bal-10xlsneakers.png')} 
+          title="BALENCIAGA" 
+          price="€1100" 
+        />
       </View>
       <StatusBar style="auto" />
     </View>
@@ -77,29 +62,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-  },
-  card: {
-    width: '30%',
-    marginBottom: 15,
-    alignItems: 'center',
-  },
-  image: {
-    width: '100%',
-    height: 200,
-    marginBottom: 8,
-  },
-  title: {
-    fontSize: 12,
-    fontFamily: 'MetropolisRegular',
-    textAlign: 'left',
-    color: '#000',
-    alignSelf: 'flex-start',
-  },
-  price: {
-    fontSize: 12,
-    fontFamily: 'MetropolisRegular',
-    textAlign: 'left',
-    color: '#000',
-    alignSelf: 'flex-start',
   },
 });
