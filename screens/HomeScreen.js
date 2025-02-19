@@ -1,3 +1,4 @@
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -61,6 +62,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingTop: 50,
     paddingHorizontal: 15,
+  },
+  header: {
+    fontSize: 36,
+    fontFamily: 'MetropolisBold',
+    marginTop: 20,
+    marginBottom: 20,
+    textAlign: 'center',
   },
   scrollContainer: {
     flexGrow: 1,
