@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import Card from '../components/ProductCard';
 
 // Data array voor producten
@@ -28,17 +29,24 @@ const products = [
 
 // HomeScreen component
 const HomeScreen = () => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.cardContainer}>
           {products.map((product, index) => (
-            <Card
+            <TouchableOpacity
               key={index}
-              imageSource={product.imageSource}
-              title={product.title}
-              price={product.price}
-            />
+              onPress={() => navigation.navigate('ProductDetails', { product })}
+              style={styles.cardWrapper} // Added wrapper style
+            >
+              <Card
+                imageSource={product.imageSource}
+                title={product.title}
+                price={product.price}
+              />
+            </TouchableOpacity>
           ))}
         </View>
       </ScrollView>
@@ -56,6 +64,13 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     paddingHorizontal: 15,
   },
+  header: {
+    fontSize: 24,
+    fontFamily: 'MetropolisBold',
+    marginTop: 20,
+    marginBottom: 20,
+    textAlign: 'center',
+  },
   scrollContainer: {
     flexGrow: 1,
   },
@@ -63,5 +78,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+  },
+  cardWrapper: {
+    width: '30%', // Ensure the wrapper takes the same width as the card
+    marginBottom: 15,
   },
 });

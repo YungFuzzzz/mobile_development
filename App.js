@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './screens/HomeScreen';
+import ProductDetails from './screens/ProductDetails';
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 
@@ -20,6 +21,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="GARDEROBE" component={HomeScreen} />
+        <Stack.Screen name="ProductDetails" component={ProductDetails} />
       </Stack.Navigator>
     </NavigationContainer>
   );

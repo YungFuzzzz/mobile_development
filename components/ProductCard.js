@@ -17,8 +17,7 @@ const ProductCard = ({ imageSource, title, price }) => {
 
 const styles = StyleSheet.create({
   card: {
-    width: '30%',
-    marginBottom: 15,
+    width: '100%',
     alignItems: 'center',
   },
   image: {
