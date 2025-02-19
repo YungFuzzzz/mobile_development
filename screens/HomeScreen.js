@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-nati
 import { useNavigation } from '@react-navigation/native';
 import Card from '../components/ProductCard';
 
-// Data array voor producten
 const products = [
   {
     imageSource: require('../assets/images/vet-bigshapejeans.png'),
@@ -27,7 +26,6 @@ const products = [
   },
 ];
 
-// HomeScreen component
 const HomeScreen = () => {
   const navigation = useNavigation();
 
@@ -39,7 +37,7 @@ const HomeScreen = () => {
             <TouchableOpacity
               key={index}
               onPress={() => navigation.navigate('ProductDetails', { product })}
-              style={styles.cardWrapper} // Added wrapper style
+              style={styles.cardWrapper}
             >
               <Card
                 imageSource={product.imageSource}
@@ -80,7 +78,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   cardWrapper: {
-    width: '30%', // Ensure the wrapper takes the same width as the card
+    width: '30%',
     marginBottom: 15,
   },
 });
