@@ -62,13 +62,6 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     paddingHorizontal: 15,
   },
-  header: {
-    fontSize: 24,
-    fontFamily: 'MetropolisBold',
-    marginTop: 20,
-    marginBottom: 20,
-    textAlign: 'center',
-  },
   scrollContainer: {
     flexGrow: 1,
   },
