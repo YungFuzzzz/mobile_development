@@ -17,14 +17,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'center',
     padding: 20,
   },
   image: {
-    width: '100%',
-    height: 300,
+    width: '80%',
+    height: 200,
     marginBottom: 20,
+    alignSelf: 'center',
   },
   title: {
     fontSize: 24,
