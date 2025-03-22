@@ -29,7 +29,7 @@ useEffect(() => {
           const productFieldData = item.product?.fieldData || {};
           return {
             id: item.product?.id || 'unknown',
-            name: sku.name || productFieldData.name || 'No name available',
+            brand: productFieldData.brand || 'No brand available',
             price: sku.price?.value ? `€${(sku.price.value / 100).toFixed(2)}` : 'N/A',
             imageUrl: sku['main-image']?.url || '',
           };
@@ -52,7 +52,7 @@ useEffect(() => {
             >
               <Card
                 imageSource={product.imageUrl ? { uri: product.imageUrl } : null}
-                title={product.name}
+                title={product.brand}
                 price={product.price}
               />
             </TouchableOpacity>
