@@ -1,34 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Card from '../components/ProductCard';
+import { API_URL, API_KEY } from '@env';
 
-const products = [
-  {
-    imageSource: require('../assets/images/vet-bigshapejeans.png'),
-    title: 'VETEMENTS',
-    price: '€1290',
-  },
-  {
-    imageSource: require('../assets/images/vet-ovallogohoodie.png'),
-    title: 'VETEMENTS',
-    price: '€870',
-  },
-  {
-    imageSource: require('../assets/images/bal-boxinghoodie.png'),
-    title: 'BALENCIAGA',
-    price: '€990',
-  },
-  {
-    imageSource: require('../assets/images/bal-10xlsneakers.png'),
-    title: 'BALENCIAGA',
-    price: '€1100',
-  },
-];
+
+const apiUrl = API_URL;
+const apiKey = API_KEY;
 
 const HomeScreen = () => {
   const navigation = useNavigation();
+  const [products, setProducts] = useState([]);
+
+useEffect(() => {
+  fetch(API_URL, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${API_KEY}`,
+      "accept-version": "1.0.0",
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.items) {
+        const formattedProducts = data.items.map((item) => {
+          const sku = item.skus?.[0]?.fieldData || {};
+          const productFieldData = item.product?.fieldData || {};
+          return {
+            id: item.product?.id || 'unknown',
+            name: sku.name || productFieldData.name || 'No name available',
+            price: sku.price?.value ? `€${(sku.price.value / 100).toFixed(2)}` : 'N/A',
+            imageUrl: sku['main-image']?.url || '',
+          };
+        });
+        setProducts(formattedProducts);
+      }
+    })
+    .catch((err) => console.error("Error fetching products:", err));
+}, []);
 
   return (
     <View style={styles.container}>
@@ -41,8 +51,8 @@ const HomeScreen = () => {
               style={styles.cardWrapper}
             >
               <Card
-                imageSource={product.imageSource}
-                title={product.title}
+                imageSource={product.imageUrl ? { uri: product.imageUrl } : null}
+                title={product.name}
                 price={product.price}
               />
             </TouchableOpacity>
@@ -62,13 +72,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingTop: 50,
     paddingHorizontal: 15,
-  },
-  header: {
-    fontSize: 36,
-    fontFamily: 'MetropolisBold',
-    marginTop: 20,
-    marginBottom: 20,
-    textAlign: 'center',
   },
   scrollContainer: {
     flexGrow: 1,
