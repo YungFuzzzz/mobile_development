@@ -3,10 +3,9 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 
 const ProductDetails = ({ route }) => {
   const product = route?.params?.product || {};
-  const sku = product?.skus?.[0]?.fieldData || {};
-  const mainImageUrl = sku['main-image']?.url || '';
-  const name = sku.name || 'No name available';
-  const price = sku.price?.value ? `€${(sku.price.value / 100).toFixed(2)}` : 'N/A';
+  const mainImageUrl = product.imageUrl || '';
+  const name = product.brand || 'No brand available';
+  const price = product.price || 'N/A';
 
   if (!mainImageUrl) {
     return (
