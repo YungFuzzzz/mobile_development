@@ -17,7 +17,7 @@ const categoryNames = {
 const HomeScreen = () => {
   const navigation = useNavigation();
   const [products, setProducts] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(''); // State for selected category
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   useEffect(() => {
     fetch(API_URL, {
@@ -38,7 +38,7 @@ const HomeScreen = () => {
               brand: productFieldData.brand || 'No brand available',
               price: sku.price?.value ? `€${(sku.price.value / 100).toFixed(2)}` : 'N/A',
               imageUrl: sku['main-image']?.url || '',
-              category: productFieldData.category?.[0] || '', // Add category field
+              category: productFieldData.category?.[0] || '',
             };
           });
           setProducts(formattedProducts);
@@ -47,7 +47,6 @@ const HomeScreen = () => {
       .catch((err) => console.error("Error fetching products:", err));
   }, []);
 
-  // Filter products based on the selected category
   const filteredProducts = selectedCategory
     ? products.filter((product) => product.category === selectedCategory)
     : products;
@@ -65,6 +64,7 @@ const HomeScreen = () => {
         ))}
       </Picker>
 
+      {/* Product List */}
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.cardContainer}>
           {filteredProducts.map((product, index) => (

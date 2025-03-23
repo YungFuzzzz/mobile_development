@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native';
 
 const ProductDetails = ({ route }) => {
   const product = route?.params?.product || {};
@@ -9,20 +10,22 @@ const ProductDetails = ({ route }) => {
 
   if (!mainImageUrl) {
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <Text style={styles.errorText}>No image available</Text>
         <Text style={styles.title}>{name}</Text>
         <Text style={styles.price}>{price}</Text>
-      </View>
+      </SafeAreaView>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <Image source={{ uri: mainImageUrl }} style={styles.image} resizeMode="contain" />
-      <Text style={styles.title}>{name}</Text>
-      <Text style={styles.price}>{price}</Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <Image source={{ uri: mainImageUrl }} style={styles.image} resizeMode="contain" />
+        <Text style={styles.title}>{name}</Text>
+        <Text style={styles.price}>{price}</Text>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -30,9 +33,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
     padding: 20,
+  },
+  scrollContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   image: {
     width: '80%',
@@ -44,10 +49,12 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: 'MetropolisBold',
     marginBottom: 10,
+    textAlign: 'center',
   },
   price: {
     fontSize: 20,
     fontFamily: 'MetropolisRegular',
+    textAlign: 'center',
   },
   errorText: {
     fontSize: 16,
