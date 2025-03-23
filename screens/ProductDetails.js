@@ -18,6 +18,7 @@ const ProductDetails = ({ route }) => {
   ].filter(Boolean);
 
   const brand = productFieldData.brand || 'No brand available';
+  const name = productFieldData.name || 'No name available';
   const description = productFieldData.description || 'No description available';
   const price = sku.price?.value ? `$${(sku.price.value / 100).toFixed(2)}` : 'N/A';
 
@@ -59,6 +60,7 @@ const ProductDetails = ({ route }) => {
         {/* Product details */}
         <View style={styles.detailsContainer}>
           <Text style={styles.title}>{brand}</Text>
+          <Text style={styles.name}>{name}</Text>
           <Text style={styles.description}>{description}</Text>
           <Text style={styles.price}>{price}</Text>
         </View>
@@ -136,9 +138,16 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontFamily: 'MetropolisRegular',
-    marginBottom: 10,
+    marginBottom: 5,
     textAlign: 'left',
     textDecorationLine: 'underline',
+  },
+  name: {
+    fontSize: 14,
+    fontFamily: 'MetropolisRegular',
+    marginBottom: 10,
+    textAlign: 'left',
+    color: '#555',
   },
   description: {
     fontSize: 14,
