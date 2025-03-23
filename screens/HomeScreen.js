@@ -4,47 +4,70 @@ import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Card from '../components/ProductCard';
 import { API_URL, API_KEY } from '@env';
+import { Picker } from '@react-native-picker/picker';
 
-
-const apiUrl = API_URL;
-const apiKey = API_KEY;
+const categoryNames = {
+  "": "All categories",
+  "67dd422e978d9317d801b906": "Jeans",
+  "67dd401c00f7b9e03da182a7": "Pants",
+  "67dd3f10978d9317d8fec103": "Hoodies",
+  "67dd3e44b7f07384e3ab209f": "Sneakers",
+};
 
 const HomeScreen = () => {
   const navigation = useNavigation();
   const [products, setProducts] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(''); // State for selected category
 
-useEffect(() => {
-  fetch(API_URL, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${API_KEY}`,
-      "accept-version": "1.0.0",
-    },
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.items) {
-        const formattedProducts = data.items.map((item) => {
-          const sku = item.skus?.[0]?.fieldData || {};
-          const productFieldData = item.product?.fieldData || {};
-          return {
-            id: item.product?.id || 'unknown',
-            brand: productFieldData.brand || 'No brand available',
-            price: sku.price?.value ? `€${(sku.price.value / 100).toFixed(2)}` : 'N/A',
-            imageUrl: sku['main-image']?.url || '',
-          };
-        });
-        setProducts(formattedProducts);
-      }
+  useEffect(() => {
+    fetch(API_URL, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${API_KEY}`,
+        "accept-version": "1.0.0",
+      },
     })
-    .catch((err) => console.error("Error fetching products:", err));
-}, []);
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.items) {
+          const formattedProducts = data.items.map((item) => {
+            const sku = item.skus?.[0]?.fieldData || {};
+            const productFieldData = item.product?.fieldData || {};
+            return {
+              id: item.product?.id || 'unknown',
+              brand: productFieldData.brand || 'No brand available',
+              price: sku.price?.value ? `€${(sku.price.value / 100).toFixed(2)}` : 'N/A',
+              imageUrl: sku['main-image']?.url || '',
+              category: productFieldData.category?.[0] || '', // Add category field
+            };
+          });
+          setProducts(formattedProducts);
+        }
+      })
+      .catch((err) => console.error("Error fetching products:", err));
+  }, []);
+
+  // Filter products based on the selected category
+  const filteredProducts = selectedCategory
+    ? products.filter((product) => product.category === selectedCategory)
+    : products;
 
   return (
     <View style={styles.container}>
+      {/* Category Picker */}
+      <Picker
+        selectedValue={selectedCategory}
+        onValueChange={(itemValue) => setSelectedCategory(itemValue)}
+        style={styles.picker}
+      >
+        {Object.entries(categoryNames).map(([key, value]) => (
+          <Picker.Item key={key} label={value} value={key} />
+        ))}
+      </Picker>
+
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.cardContainer}>
-          {products.map((product, index) => (
+          {filteredProducts.map((product, index) => (
             <TouchableOpacity
               key={index}
               onPress={() => navigation.navigate('ProductDetails', { product })}
@@ -72,6 +95,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingTop: 50,
     paddingHorizontal: 15,
+  },
+  picker: {
+    height: 50,
+    width: '100%',
+    marginBottom: 20,
   },
   scrollContainer: {
     flexGrow: 1,
