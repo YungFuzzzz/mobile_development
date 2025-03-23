@@ -17,11 +17,11 @@ const categoryNames = {
 const ShopScreen = () => {
   const navigation = useNavigation();
   const [products, setProducts] = useState([]);
-  const [searchQuery, setSearchQuery] = useState(''); // Zoekterm
+  const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   const [isSortVisible, setIsSortVisible] = useState(false);
-  const [sortOrder, setSortOrder] = useState(''); // Voor sorteren
+  const [sortOrder, setSortOrder] = useState('');
 
   useEffect(() => {
     fetch(API_URL, {
@@ -36,7 +36,7 @@ const ShopScreen = () => {
         if (data.items) {
           const formattedProducts = data.items.map((item) => {
             return {
-              ...item, // Sla de volledige API-respons op
+              ...item,
               id: item.product?.id || 'unknown',
               name: item.product?.fieldData?.name || 'No name available',
               brand: item.product?.fieldData?.brand || 'No brand available',
@@ -55,7 +55,7 @@ const ShopScreen = () => {
 
   const filteredProducts = products.filter((product) => {
     const matchesSearchQuery =
-      product.name.toLowerCase().includes(searchQuery.toLowerCase()) || // Filter op naam
+      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.category.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory
@@ -70,10 +70,8 @@ const ShopScreen = () => {
     } else if (sortOrder === 'highToLow') {
       return b.price - a.price;
     } else if (sortOrder === 'latest') {
-      // Sorteer op laatst toegevoegde items (op basis van ID of een timestamp)
-      return b.id.localeCompare(a.id); // Zorg ervoor dat ID's oplopend zijn
+      return b.id.localeCompare(a.id);
     } else if (sortOrder === 'aToZ') {
-      // Sorteer alfabetisch op naam
       return a.name.localeCompare(b.name);
     }
     return 0;
@@ -99,7 +97,7 @@ const ShopScreen = () => {
       >
         <Pressable
           style={styles.modalOverlay}
-          onPress={() => setIsFilterVisible(false)} // Sluit modal bij klikken buiten het menu
+          onPress={() => setIsFilterVisible(false)}
         >
           <Pressable style={styles.bottomModal}>
             <Text style={styles.modalTitle}>Filter By</Text>
@@ -130,7 +128,7 @@ const ShopScreen = () => {
       >
         <Pressable
           style={styles.modalOverlay}
-          onPress={() => setIsSortVisible(false)} // Sluit modal bij klikken buiten het menu
+          onPress={() => setIsSortVisible(false)}
         >
           <Pressable style={styles.bottomModal}>
             <Text style={styles.modalTitle}>Sort By</Text>
@@ -240,7 +238,7 @@ const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
     justifyContent: 'flex-end',
-    backgroundColor: 'rgba(255, 255, 255, 0.7)', // Minder sterke haze
+    backgroundColor: 'rgba(255, 255, 255, 0.4)',
   },
   bottomModal: {
     backgroundColor: '#fff',

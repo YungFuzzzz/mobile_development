@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, FlatList, Dimensions, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native';
+import { WishlistContext } from '../context/WishListContext';
 
 const { height, width } = Dimensions.get('window');
 
-const ProductDetails = ({ route, navigation }) => {
+const ProductDetails = ({ route }) => {
+  const { wishlist, toggleWishlist } = useContext(WishlistContext);
   const product = route?.params?.product || {};
   const sku = product.skus?.[0]?.fieldData || {};
   const productFieldData = product.product?.fieldData || {};
@@ -17,16 +19,6 @@ const ProductDetails = ({ route, navigation }) => {
   const brand = productFieldData.brand || 'No brand available';
   const description = productFieldData.description || 'No description available';
   const price = sku.price?.value ? `$${(sku.price.value / 100).toFixed(2)}` : 'N/A';
-
-  const [wishlist, setWishlist] = useState([]);
-
-  const toggleWishlist = () => {
-    if (wishlist.includes(product)) {
-      setWishlist(wishlist.filter((item) => item !== product));
-    } else {
-      setWishlist([...wishlist, product]);
-    }
-  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -62,17 +54,17 @@ const ProductDetails = ({ route, navigation }) => {
           <TouchableOpacity
             style={[
               styles.wishlistButton,
-              wishlist.includes(product) ? styles.wishlistButtonActive : null,
+              wishlist.some((item) => item.id === product.id) ? styles.wishlistButtonActive : null,
             ]}
-            onPress={toggleWishlist}
+            onPress={() => toggleWishlist(product)}
           >
             <Text
               style={[
                 styles.wishlistButtonText,
-                wishlist.includes(product) ? styles.wishlistButtonTextActive : null,
+                wishlist.some((item) => item.id === product.id) ? styles.wishlistButtonTextActive : null,
               ]}
             >
-              {wishlist.includes(product) ? 'ADDED TO WISHLIST' : 'Add to Wishlist'}
+              {wishlist.some((item) => item.id === product.id) ? 'ADDED TO WISHLIST' : 'Add to Wishlist'}
             </Text>
           </TouchableOpacity>
         </View>
@@ -145,6 +137,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingVertical: 10,
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#000',
+  },
+  wishlistButtonActive: {
+    backgroundColor: '#fff',
   },
   buttonText: {
     color: '#fff',

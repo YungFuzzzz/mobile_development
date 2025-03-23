@@ -10,6 +10,7 @@ import HomeScreen from './screens/HomeScreen';
 import ProductDetails from './screens/ProductDetails';
 import ProfileScreen from './screens/ProfileScreen';
 import ShopScreen from './screens/ShopScreen';
+import { WishlistProvider } from './context/WishListContext';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -38,40 +39,42 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        initialRouteName="Home"
-        screenOptions={({ route }) => ({
-          tabBarLabel: ({ focused }) => (
-            <View style={styles.tabContainer}>
-              <Text style={[styles.tabLabel, focused && styles.tabLabelFocused]}>
-                {route.name.toUpperCase()}
-              </Text>
-              {focused && <View style={styles.dot} />}
-            </View>
-          ),
-          tabBarStyle: styles.tabBar,
-          tabBarShowLabel: true,
-          tabBarIcon: () => null,
-        })}
-      >
-        <Tab.Screen
-          name="Home"
-          component={HomeStack}
-          options={{ headerShown: false }}
-        />
-        <Tab.Screen
-          name="Shop"
-          component={ShopStack}
-          options={{ headerShown: false }}
-        />
-        <Tab.Screen
-          name="Profile"
-          component={ProfileScreen}
-          options={{ headerShown: false }}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <WishlistProvider> {/* Wikkel de app in de WishlistProvider */}
+      <NavigationContainer>
+        <Tab.Navigator
+          initialRouteName="Home"
+          screenOptions={({ route }) => ({
+            tabBarLabel: ({ focused }) => (
+              <View style={styles.tabContainer}>
+                <Text style={[styles.tabLabel, focused && styles.tabLabelFocused]}>
+                  {route.name.toUpperCase()}
+                </Text>
+                {focused && <View style={styles.dot} />}
+              </View>
+            ),
+            tabBarStyle: styles.tabBar,
+            tabBarShowLabel: true,
+            tabBarIcon: () => null,
+          })}
+        >
+          <Tab.Screen
+            name="Home"
+            component={HomeStack}
+            options={{ headerShown: false }}
+          />
+          <Tab.Screen
+            name="Shop"
+            component={ShopStack}
+            options={{ headerShown: false }}
+          />
+          <Tab.Screen
+            name="Profile"
+            component={ProfileScreen}
+            options={{ headerShown: false }}
+          />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </WishlistProvider>
   );
 }
 
