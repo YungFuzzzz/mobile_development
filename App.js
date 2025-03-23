@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import HomeScreen from './screens/HomeScreen';
 import ProductDetails from './screens/ProductDetails';
@@ -26,9 +26,20 @@ const ShopStack = () => (
     <Stack.Screen
       name="Shop"
       component={ShopScreen}
-      options={{ headerShown: false }} // Verberg de titel bovenaan de ShopScreen
+      options={{ headerShown: false }}
     />
-    <Stack.Screen name="ProductDetails" component={ProductDetails} />
+    <Stack.Screen
+      name="ProductDetails"
+      component={ProductDetails}
+      options={({ navigation }) => ({
+        headerTitle: "",
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginLeft: 15 }}>
+            <Text style={styles.backButton}>BACK</Text>
+          </TouchableOpacity>
+        ),
+      })}
+    />
   </Stack.Navigator>
 );
 
@@ -107,5 +118,10 @@ const styles = StyleSheet.create({
     width: 6,
     borderRadius: 3,
     backgroundColor: '#000',
+  },
+  backButton: {
+    fontSize: 14,
+    fontFamily: 'MetropolisBold',
+    color: '#000',
   },
 });

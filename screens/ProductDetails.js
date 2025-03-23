@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, FlatList, Dimensions, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native';
 import { WishlistContext } from '../context/WishListContext';
@@ -7,6 +7,7 @@ const { height, width } = Dimensions.get('window');
 
 const ProductDetails = ({ route }) => {
   const { wishlist, toggleWishlist } = useContext(WishlistContext);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const product = route?.params?.product || {};
   const sku = product.skus?.[0]?.fieldData || {};
   const productFieldData = product.product?.fieldData || {};
@@ -31,12 +32,28 @@ const ProductDetails = ({ route }) => {
             pagingEnabled
             showsHorizontalScrollIndicator={false}
             keyExtractor={(item, index) => index.toString()}
+            onScroll={({ nativeEvent }) => {
+              const index = Math.round(nativeEvent.contentOffset.x / width);
+              setCurrentImageIndex(index);
+            }}
             renderItem={({ item }) => (
               <View style={styles.imageContainer}>
                 <Image source={{ uri: item }} style={styles.image} resizeMode="contain" />
               </View>
             )}
           />
+          {/* Paginapunten */}
+          <View style={styles.pagination}>
+            {images.map((_, index) => (
+              <View
+                key={index}
+                style={[
+                  styles.dot,
+                  currentImageIndex === index && styles.activeDot,
+                ]}
+              />
+            ))}
+          </View>
         </View>
 
         {/* Product details */}
@@ -96,6 +113,22 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '100%',
+  },
+  pagination: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  dot: {
+    height: 8,
+    width: 8,
+    borderRadius: 4,
+    backgroundColor: '#ccc',
+    marginHorizontal: 4,
+  },
+  activeDot: {
+    backgroundColor: '#000',
   },
   detailsContainer: {
     padding: 20,
