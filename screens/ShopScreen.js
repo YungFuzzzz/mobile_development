@@ -12,6 +12,7 @@ const categoryNames = {
   "67dd401c00f7b9e03da182a7": "Pants",
   "67dd3f10978d9317d8fec103": "Hoodies",
   "67dd3e44b7f07384e3ab209f": "Sneakers",
+  "67dff6d255e34fe8d33797a0": "T-Shirts",
 };
 
 const ShopScreen = () => {
