@@ -23,7 +23,11 @@ const HomeStack = () => (
 
 const ShopStack = () => (
   <Stack.Navigator>
-    <Stack.Screen name="Shop" component={ShopScreen} />
+    <Stack.Screen
+      name="Shop"
+      component={ShopScreen}
+      options={{ headerShown: false }} // Verberg de titel bovenaan de ShopScreen
+    />
     <Stack.Screen name="ProductDetails" component={ProductDetails} />
   </Stack.Navigator>
 );
