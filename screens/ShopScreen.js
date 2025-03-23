@@ -35,15 +35,16 @@ const ShopScreen = () => {
       .then((data) => {
         if (data.items) {
           const formattedProducts = data.items.map((item) => {
-            const sku = item.skus?.[0]?.fieldData || {};
-            const productFieldData = item.product?.fieldData || {};
             return {
+              ...item, // Sla de volledige API-respons op
               id: item.product?.id || 'unknown',
-              name: productFieldData.name || 'No name available',
-              brand: productFieldData.brand || 'No brand available',
-              price: sku.price?.value ? sku.price.value / 100 : null,
-              imageUrl: sku['main-image']?.url || '',
-              category: productFieldData.category?.[0] || '',
+              name: item.product?.fieldData?.name || 'No name available',
+              brand: item.product?.fieldData?.brand || 'No brand available',
+              price: item.skus?.[0]?.fieldData?.price?.value
+                ? item.skus[0].fieldData.price.value / 100
+                : null,
+              imageUrl: item.skus?.[0]?.fieldData?.['main-image']?.url || '',
+              category: item.product?.fieldData?.category?.[0] || '',
             };
           });
           setProducts(formattedProducts);
