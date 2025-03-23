@@ -72,10 +72,10 @@ const ProfileScreen = () => {
             <Text style={styles.settingsText}>DELETE ACCOUNT</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.settingsItem}>
-            <Text style={styles.settingsText}>LOG OUT</Text>
+            <Text style={styles.settingsText}>SUPPORT</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.settingsItem}>
-            <Text style={styles.settingsText}>SUPPORT</Text>
+            <Text style={styles.settingsText}>LOG OUT</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

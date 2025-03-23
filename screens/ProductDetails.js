@@ -170,8 +170,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingVertical: 10,
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#000',
   },
   wishlistButtonActive: {
     backgroundColor: '#fff',
