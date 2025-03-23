@@ -14,13 +14,22 @@ import ShopScreen from './screens/ShopScreen';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
+// HomeStack: Voor de HomeScreen (zonder producten)
 const HomeStack = () => (
   <Stack.Navigator>
-    <Stack.Screen name="GARDEROBE" component={HomeScreen} />
+    <Stack.Screen name="Home" component={HomeScreen} />
+  </Stack.Navigator>
+);
+
+// ShopStack: Voor de ShopScreen en ProductDetails
+const ShopStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen name="Shop" component={ShopScreen} />
     <Stack.Screen name="ProductDetails" component={ProductDetails} />
   </Stack.Navigator>
 );
 
+// Main App Component
 export default function App() {
   const [fontsLoaded] = useFonts({
     MetropolisRegular: require('./assets/fonts/metropolis.regular.otf'),
@@ -51,12 +60,12 @@ export default function App() {
       >
         <Tab.Screen
           name="Home"
-          component={HomeStack}
+          component={HomeStack} // HomeStack voor de HomeScreen
           options={{ headerShown: false }}
         />
         <Tab.Screen
           name="Shop"
-          component={ShopScreen}
+          component={ShopStack} // ShopStack met ShopScreen en ProductDetails
           options={{ headerShown: false }}
         />
         <Tab.Screen
