@@ -17,7 +17,11 @@ const Tab = createBottomTabNavigator();
 
 const HomeStack = () => (
   <Stack.Navigator>
-    <Stack.Screen name="Home" component={HomeScreen} />
+    <Stack.Screen
+      name="Home"
+      component={HomeScreen}
+      options={{ headerShown: false }} // Verberg de titel bovenaan de Home-pagina
+    />
   </Stack.Navigator>
 );
 
@@ -54,7 +58,7 @@ export default function App() {
   }
 
   return (
-    <WishlistProvider> {/* Wikkel de app in de WishlistProvider */}
+    <WishlistProvider>
       <NavigationContainer>
         <Tab.Navigator
           initialRouteName="Home"
