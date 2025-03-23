@@ -237,7 +237,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomWidth: 1,
     borderBottomColor: '#000',
-    marginBottom: 20,
+    marginTop: 24,
+    marginBottom: 16,
   },
   searchIcon: {
     marginRight: 10,
