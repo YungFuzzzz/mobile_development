@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, ScrollView, TouchableOpacity, Text, Modal, Pressable, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
 import Card from '../components/ProductCard';
 import { API_URL, API_KEY } from '@env';
 
@@ -81,13 +82,17 @@ const ShopScreen = () => {
   return (
     <View style={styles.container}>
       {/* Zoekbalk */}
-      <TextInput
-        style={styles.searchBar}
-        placeholder="Search products..."
-        placeholderTextColor="#aaa"
-        value={searchQuery}
-        onChangeText={(text) => setSearchQuery(text)}
-      />
+      <View style={styles.searchBarContainer}>
+        <Ionicons name="search" size={20} color="#aaa" style={styles.searchIcon} />
+        <TextInput
+          style={styles.searchBar}
+          placeholder="SEARCH"
+          placeholderTextColor="#aaa"
+          value={searchQuery}
+          onChangeText={(text) => setSearchQuery(text)}
+          underlineColorAndroid="transparent"
+        />
+      </View>
 
       {/* Filter Modal */}
       <Modal
@@ -182,7 +187,7 @@ const ShopScreen = () => {
       </Modal>
 
       {/* Product List */}
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <ScrollView contentContainerStyle={[styles.scrollContainer, { paddingBottom: 100 }]}>
         <View style={styles.cardContainer}>
           {sortedProducts.map((product, index) => (
             <TouchableOpacity
@@ -227,11 +232,19 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     paddingHorizontal: 15,
   },
+  searchBarContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#000',
+    marginBottom: 20,
+  },
+  searchIcon: {
+    marginRight: 10,
+  },
   searchBar: {
-    backgroundColor: '#f0f0f0',
-    padding: 10,
-    borderRadius: 5,
-    marginBottom: 15,
+    flex: 1,
+    paddingVertical: 5,
     fontSize: 16,
     fontFamily: 'MetropolisRegular',
     color: '#000',
