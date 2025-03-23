@@ -13,6 +13,7 @@ const categoryNames = {
   "67dd3f10978d9317d8fec103": "Hoodies",
   "67dd3e44b7f07384e3ab209f": "Sneakers",
   "67dff6d255e34fe8d33797a0": "T-Shirts",
+  "67e06e6acd46156653ff94d0": "Jackets",
 };
 
 const ShopScreen = () => {
