@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, ScrollView, TouchableOpacity, Text, Modal, Pressable, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
 import Card from '../components/ProductCard';
 import { API_URL, API_KEY } from '@env';
 
@@ -82,17 +81,105 @@ const ShopScreen = () => {
   return (
     <View style={styles.container}>
       {/* Zoekbalk */}
-      <View style={styles.searchBarContainer}>
-        <Ionicons name="search" size={20} color="#aaa" style={styles.searchIcon} />
-        <TextInput
-          style={styles.searchBar}
-          placeholder="SEARCH"
-          placeholderTextColor="#aaa"
-          value={searchQuery}
-          onChangeText={(text) => setSearchQuery(text)}
-          underlineColorAndroid="transparent"
-        />
-      </View>
+      <TextInput
+        style={styles.searchBar}
+        placeholder="Search products..."
+        placeholderTextColor="#aaa"
+        value={searchQuery}
+        onChangeText={(text) => setSearchQuery(text)}
+      />
+
+      {/* Filter Modal */}
+      <Modal
+        visible={isFilterVisible}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setIsFilterVisible(false)}
+      >
+        <Pressable
+          style={styles.modalOverlay}
+          onPress={() => setIsFilterVisible(false)}
+        >
+          <Pressable style={styles.bottomModal}>
+            <Text style={styles.modalTitle}>Filter By</Text>
+            {Object.entries(categoryNames).map(([key, value]) => (
+              <Pressable
+                key={key}
+                style={styles.categoryOption}
+                onPress={() => {
+                  setSelectedCategory(key);
+                  setIsFilterVisible(false);
+                }}
+              >
+                <Text style={styles.categoryText}>
+                  {selectedCategory === key && '● '} {value}
+                </Text>
+              </Pressable>
+            ))}
+          </Pressable>
+        </Pressable>
+      </Modal>
+
+      {/* Sort Modal */}
+      <Modal
+        visible={isSortVisible}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setIsSortVisible(false)}
+      >
+        <Pressable
+          style={styles.modalOverlay}
+          onPress={() => setIsSortVisible(false)}
+        >
+          <Pressable style={styles.bottomModal}>
+            <Text style={styles.modalTitle}>Sort By</Text>
+            <Pressable
+              style={styles.categoryOption}
+              onPress={() => {
+                setSortOrder('lowToHigh');
+                setIsSortVisible(false);
+              }}
+            >
+              <Text style={styles.categoryText}>
+                {sortOrder === 'lowToHigh' && '● '}Price: Low to High
+              </Text>
+            </Pressable>
+            <Pressable
+              style={styles.categoryOption}
+              onPress={() => {
+                setSortOrder('highToLow');
+                setIsSortVisible(false);
+              }}
+            >
+              <Text style={styles.categoryText}>
+                {sortOrder === 'highToLow' && '● '}Price: High to Low
+              </Text>
+            </Pressable>
+            <Pressable
+              style={styles.categoryOption}
+              onPress={() => {
+                setSortOrder('latest');
+                setIsSortVisible(false);
+              }}
+            >
+              <Text style={styles.categoryText}>
+                {sortOrder === 'latest' && '● '}Latest Arrivals
+              </Text>
+            </Pressable>
+            <Pressable
+              style={styles.categoryOption}
+              onPress={() => {
+                setSortOrder('aToZ');
+                setIsSortVisible(false);
+              }}
+            >
+              <Text style={styles.categoryText}>
+                {sortOrder === 'aToZ' && '● '}A-Z
+              </Text>
+            </Pressable>
+          </Pressable>
+        </Pressable>
+      </Modal>
 
       {/* Product List */}
       <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -112,6 +199,22 @@ const ShopScreen = () => {
           ))}
         </View>
       </ScrollView>
+
+      {/* Bottom Buttons */}
+      <View style={styles.floatingButtons}>
+        <TouchableOpacity
+          style={styles.floatingButton}
+          onPress={() => setIsSortVisible(true)}
+        >
+          <Text style={styles.floatingButtonText}>SORT BY</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.floatingButton}
+          onPress={() => setIsFilterVisible(true)}
+        >
+          <Text style={styles.floatingButtonText}>FILTER</Text>
+        </TouchableOpacity>
+      </View>
       <StatusBar style="auto" />
     </View>
   );
@@ -124,22 +227,43 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     paddingHorizontal: 15,
   },
-  searchBarContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#000',
-    marginBottom: 20,
-  },
-  searchIcon: {
-    marginRight: 10,
-  },
   searchBar: {
-    flex: 1,
-    paddingVertical: 5,
+    backgroundColor: '#f0f0f0',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 15,
     fontSize: 16,
     fontFamily: 'MetropolisRegular',
     color: '#000',
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(255, 255, 255, 0.4)',
+  },
+  bottomModal: {
+    backgroundColor: '#fff',
+    padding: 20,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  modalTitle: {
+    fontSize: 14,
+    fontFamily: 'MetropolisRegular',
+    color: '#000',
+    textAlign: 'left',
+    marginBottom: 10,
+  },
+  categoryOption: {
+    paddingVertical: 10,
+    paddingHorizontal: 0,
+    marginBottom: 10,
+  },
+  categoryText: {
+    fontSize: 14,
+    fontFamily: 'MetropolisRegular',
+    color: '#000',
+    textTransform: 'uppercase',
   },
   scrollContainer: {
     flexGrow: 1,
@@ -152,6 +276,29 @@ const styles = StyleSheet.create({
   cardWrapper: {
     width: '30%',
     marginBottom: 15,
+  },
+  floatingButtons: {
+    position: 'absolute',
+    bottom: 20,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    zIndex: 10,
+  },
+  floatingButton: {
+    backgroundColor: '#000',
+    paddingVertical: 8,
+    width: 120,
+    marginHorizontal: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  floatingButtonText: {
+    color: '#fff',
+    fontSize: 12,
+    fontFamily: 'MetropolisRegular',
+    textTransform: 'uppercase',
   },
 });
 
