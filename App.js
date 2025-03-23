@@ -7,6 +7,7 @@ import AppLoading from 'expo-app-loading';
 import HomeScreen from './screens/HomeScreen';
 import ProductDetails from './screens/ProductDetails';
 import ProfileScreen from './screens/ProfileScreen';
+import ShopScreen from './screens/ShopScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -31,12 +32,21 @@ export default function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator initialRouteName="Home">
-        <Tab.Screen
-          name="Home"
-          component={HomeStack}
-          options={{ headerShown: false }}
+        <Tab.Screen 
+          name="Home" 
+          component={HomeStack} 
+          options={{ headerShown: false }} 
         />
-        <Tab.Screen name="Profile" component={ProfileScreen} />
+        <Tab.Screen 
+          name="Shop" 
+          component={ShopScreen} 
+          options={{ headerShown: false }} 
+        /> 
+        <Tab.Screen 
+          name="Profile" 
+          component={ProfileScreen} 
+          options={{ headerShown: false }} 
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );
