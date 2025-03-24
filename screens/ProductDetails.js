@@ -18,7 +18,7 @@ const ProductDetails = ({ route }) => {
   const productFieldData = product.product?.fieldData || {};
 
   const sizeOptions =
-    product.category === 'Sneakers'
+    product.category === '67dd3e44b7f07384e3ab209f'
       ? ['39', '40', '41', '42', '43', '44', '45', '46']
       : ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
@@ -113,47 +113,47 @@ const ProductDetails = ({ route }) => {
 
         {/* Size selection modal */}
         <Modal
-          visible={isModalVisible}
-          transparent={true}
-          animationType="slide"
-          onRequestClose={() => setIsModalVisible(false)}
-        >
-          <Pressable
-            style={styles.modalOverlay}
-            onPress={() => setIsModalVisible(false)}
+  visible={isModalVisible}
+  transparent={true}
+  animationType="slide"
+  onRequestClose={() => setIsModalVisible(false)}
+>
+  <View style={styles.modalOverlay}>
+    <View style={styles.bottomModal}>
+      <Text style={styles.modalTitle}>Select Size</Text>
+      <View style={styles.sizeOptionsContainer}>
+        {sizeOptions.map((size) => (
+          <TouchableOpacity
+            key={size}
+            style={styles.sizeOptionRow}
+            onPress={() => setSelectedSize(size)}
           >
-            <Pressable style={styles.modalContent}>
-              <Text style={styles.modalTitle}>Select Size</Text>
-              <View style={styles.sizeOptionsContainer}>
-                {sizeOptions.map((size) => (
-                  <TouchableOpacity
-                    key={size}
-                    style={[
-                      styles.sizeOption,
-                      selectedSize === size && styles.selectedSizeOption,
-                    ]}
-                    onPress={() => setSelectedSize(size)}
-                  >
-                    <Text
-                      style={[
-                        styles.sizeOptionText,
-                        selectedSize === size && styles.selectedSizeOptionText,
-                      ]}
-                    >
-                      {size}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-              <TouchableOpacity
-                style={styles.confirmButton}
-                onPress={handleAddToCart}
-              >
-                <Text style={styles.confirmButtonText}>CONFIRM</Text>
-              </TouchableOpacity>
-            </Pressable>
-          </Pressable>
-        </Modal>
+            <View
+              style={[
+                styles.dot,
+                selectedSize === size && styles.selectedDot,
+              ]}
+            />
+            <Text
+              style={[
+                styles.sizeOptionText,
+                selectedSize === size && styles.selectedSizeOptionText,
+              ]}
+            >
+              {size}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+      <TouchableOpacity
+        style={styles.confirmButton}
+        onPress={handleAddToCart}
+      >
+        <Text style={styles.confirmButtonText}>CONFIRM</Text>
+      </TouchableOpacity>
+    </View>
+  </View>
+</Modal>
       </ScrollView>
     </SafeAreaView>
   );
@@ -267,14 +267,13 @@ const styles = StyleSheet.create({
   },
   modalOverlay: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'flex-end', // Positioneer modal aan de onderkant
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Donkere overlay
   },
-  modalContent: {
-    width: '80%',
+  bottomModal: {
     backgroundColor: '#fff',
-    borderRadius: 10,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     padding: 20,
     alignItems: 'center',
   },
@@ -284,35 +283,42 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   sizeOptionsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
+    width: '100%',
     marginBottom: 20,
   },
-  sizeOption: {
+  sizeOptionRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+  },
+  dot: {
+    height: 12,
+    width: 12,
+    borderRadius: 6,
     borderWidth: 1,
     borderColor: '#000',
-    borderRadius: 5,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    margin: 5,
+    marginRight: 10,
   },
-  selectedSizeOption: {
+  selectedDot: {
     backgroundColor: '#000',
   },
   sizeOptionText: {
-    fontSize: 14,
+    fontSize: 16,
     fontFamily: 'MetropolisRegular',
     color: '#000',
   },
   selectedSizeOptionText: {
-    color: '#fff',
+    fontWeight: 'bold',
   },
   confirmButton: {
     backgroundColor: '#000',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical: 15,
+    paddingHorizontal: 30,
     borderRadius: 5,
+    width: '100%',
+    alignItems: 'center',
   },
   confirmButtonText: {
     color: '#fff',
