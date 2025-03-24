@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
-import { SafeAreaView, View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { SafeAreaView, View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { WishlistContext } from '../context/WishListContext';
+import { OrderContext } from '../context/OrderContext';
 import avatarImage from '../assets/images/pfp.webp';
 
 const ProfileScreen = () => {
@@ -10,6 +11,7 @@ const ProfileScreen = () => {
   };
 
   const { wishlist } = useContext(WishlistContext);
+  const { orders } = useContext(OrderContext);
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -56,6 +58,32 @@ const ProfileScreen = () => {
             <Text style={styles.orderHistoryTitle}>ORDER HISTORY</Text>
             <Ionicons name="chevron-forward" size={20} color="#333" />
           </TouchableOpacity>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.orderHistoryScroll}>
+            {orders.length > 0 ? (
+              orders.map((order) => (
+                <View key={order.id} style={styles.orderItem}>
+                  <Text style={styles.orderDate}>Date: {order.date}</Text>
+                  <Text style={styles.orderTotal}>Total: €{order.total.toFixed(2)}</Text>
+                  <FlatList
+                    data={order.items}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem={({ item }) => (
+                      <View style={styles.orderProduct}>
+                        <Image
+                          source={{ uri: item.imageUrl || 'https://via.placeholder.com/60' }}
+                          style={styles.orderProductImage}
+                          resizeMode="contain"
+                        />
+                        <Text style={styles.orderProductName}>{item.name}</Text>
+                      </View>
+                    )}
+                  />
+                </View>
+              ))
+            ) : (
+              <Text style={styles.emptyOrderHistoryText}>No orders yet.</Text>
+            )}
+          </ScrollView>
         </View>
 
         {/* Settings section */}
@@ -167,6 +195,44 @@ const styles = StyleSheet.create({
   orderHistoryTitle: {
     fontSize: 20,
     fontFamily: 'MetropolisBold',
+  },
+  orderHistoryScroll: {
+    flexDirection: 'row',
+  },
+  orderItem: {
+    marginRight: 15,
+    alignItems: 'flex-start',
+  },
+  orderDate: {
+    fontSize: 14,
+    fontFamily: 'MetropolisBold',
+    marginBottom: 5,
+  },
+  orderTotal: {
+    fontSize: 14,
+    fontFamily: 'MetropolisBold',
+    marginBottom: 10,
+  },
+  orderProduct: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  orderProductImage: {
+    width: 60,
+    height: 60,
+    marginRight: 10,
+  },
+  orderProductName: {
+    fontSize: 14,
+    fontFamily: 'MetropolisRegular',
+  },
+  emptyOrderHistoryText: {
+    fontSize: 14,
+    fontFamily: 'MetropolisRegular',
+    color: '#999',
+    textAlign: 'center',
+    marginTop: 20,
   },
   settingsSection: {
     width: '100%',

@@ -1,10 +1,12 @@
 import React, { useContext, useLayoutEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { CartContext } from '../context/CartContext';
+import { OrderContext } from '../context/OrderContext'; // Importeer OrderContext
 
 const CartPage = () => {
   const { cartItems, removeFromCart } = useContext(CartContext);
+  const { addOrder } = useContext(OrderContext); // Gebruik OrderContext
   const navigation = useNavigation();
 
   const totalPrice = cartItems.reduce((total, item) => total + item.price, 0);
@@ -19,6 +21,27 @@ const CartPage = () => {
       ),
     });
   }, [navigation]);
+
+  const handleCheckout = () => {
+    if (cartItems.length === 0) {
+      Alert.alert('Cart is empty', 'Please add items to your cart before checking out.');
+      return;
+    }
+
+    // Voeg de items toe aan de ordergeschiedenis
+    addOrder({
+      id: Date.now(), // Unieke ID voor de bestelling
+      items: cartItems,
+      total: totalPrice,
+      date: new Date().toLocaleDateString(),
+    });
+
+    // Geef feedback aan de gebruiker
+    Alert.alert('Success', 'Your order has been placed!');
+
+    // Leeg de winkelwagen
+    cartItems.forEach((item) => removeFromCart(item.id));
+  };
 
   return (
     <View style={styles.container}>
@@ -57,7 +80,7 @@ const CartPage = () => {
               <Text style={styles.totalLabel}>Total</Text>
               <Text style={styles.totalAmount}>€{totalPrice.toFixed(2)}</Text>
             </View>
-            <TouchableOpacity style={styles.checkoutButton}>
+            <TouchableOpacity style={styles.checkoutButton} onPress={handleCheckout}>
               <Text style={styles.checkoutButtonText}>GO TO CHECKOUT</Text>
             </TouchableOpacity>
           </View>
