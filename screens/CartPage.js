@@ -2,11 +2,11 @@ import React, { useContext, useLayoutEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { CartContext } from '../context/CartContext';
-import { OrderContext } from '../context/OrderContext'; // Importeer OrderContext
+import { OrderContext } from '../context/OrderContext';
 
 const CartPage = () => {
   const { cartItems, removeFromCart } = useContext(CartContext);
-  const { addOrder } = useContext(OrderContext); // Gebruik OrderContext
+  const { addOrder } = useContext(OrderContext);
   const navigation = useNavigation();
 
   const totalPrice = cartItems.reduce((total, item) => total + item.price, 0);
@@ -28,18 +28,15 @@ const CartPage = () => {
       return;
     }
 
-    // Voeg de items toe aan de ordergeschiedenis
     addOrder({
-      id: Date.now(), // Unieke ID voor de bestelling
+      id: Date.now(),
       items: cartItems,
       total: totalPrice,
       date: new Date().toLocaleDateString(),
     });
 
-    // Geef feedback aan de gebruiker
     Alert.alert('Success', 'Your order has been placed!');
 
-    // Leeg de winkelwagen
     cartItems.forEach((item) => removeFromCart(item.id));
   };
 

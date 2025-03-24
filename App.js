@@ -13,7 +13,7 @@ import ShopScreen from './screens/ShopScreen';
 import CartPage from './screens/CartPage';
 import { WishlistProvider } from './context/WishListContext';
 import { CartProvider } from './context/CartContext';
-import { OrderProvider } from './context/OrderContext'; // Importeer OrderProvider
+import { OrderProvider } from './context/OrderContext';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -75,7 +75,7 @@ export default function App() {
   return (
     <WishlistProvider>
       <CartProvider>
-        <OrderProvider> {/* Voeg de OrderProvider toe */}
+        <OrderProvider>
           <NavigationContainer>
             <Tab.Navigator
               initialRouteName="Home"
