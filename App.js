@@ -10,9 +10,9 @@ import HomeScreen from './screens/HomeScreen';
 import ProductDetails from './screens/ProductDetails';
 import ProfileScreen from './screens/ProfileScreen';
 import ShopScreen from './screens/ShopScreen';
-import CartPage from './screens/CartPage'; // Import CartPage
+import CartPage from './screens/CartPage';
 import { WishlistProvider } from './context/WishListContext';
-import { CartProvider } from './context/CartContext'; // Import CartProvider
+import { CartProvider } from './context/CartContext';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -22,7 +22,7 @@ const HomeStack = () => (
     <Stack.Screen
       name="Home"
       component={HomeScreen}
-      options={{ headerShown: false }} // Verberg de titel bovenaan de Home-pagina
+      options={{ headerShown: false }}
     />
   </Stack.Navigator>
 );
@@ -49,7 +49,14 @@ const ShopStack = () => (
     <Stack.Screen
       name="CartPage"
       component={CartPage}
-      options={{ title: 'Your Cart' }} // Add CartPage to the stack
+      options={({ navigation }) => ({
+        headerTitle: "",
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginLeft: 15 }}>
+            <Text style={styles.backButton}>BACK</Text>
+          </TouchableOpacity>
+        ),
+      })}
     />
   </Stack.Navigator>
 );
@@ -66,7 +73,7 @@ export default function App() {
 
   return (
     <WishlistProvider>
-      <CartProvider> {/* Wrap the app with CartProvider */}
+      <CartProvider>
         <NavigationContainer>
           <Tab.Navigator
             initialRouteName="Home"

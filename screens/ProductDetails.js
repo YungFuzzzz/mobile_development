@@ -267,8 +267,8 @@ const styles = StyleSheet.create({
   },
   modalOverlay: {
     flex: 1,
-    justifyContent: 'flex-end', // Positioneer modal aan de onderkant
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Donkere overlay
+    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   bottomModal: {
     backgroundColor: '#fff',

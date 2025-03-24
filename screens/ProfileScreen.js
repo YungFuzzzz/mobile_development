@@ -14,13 +14,13 @@ const ProfileScreen = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container}>
-        {/* Profielfoto en naam */}
+        {/* Profilepicture and name */}
         <View style={styles.profileHeader}>
           <Image source={avatarImage} style={styles.avatar} />
           <Text style={styles.name}>{profile.name}</Text>
         </View>
 
-        {/* Wishlist Sectie */}
+        {/* Wishlist section */}
         <View style={styles.wishlistSection}>
           <TouchableOpacity style={styles.sectionHeader}>
             <Text style={styles.wishlistTitle}>WISHLIST</Text>
@@ -50,16 +50,15 @@ const ProfileScreen = () => {
           </ScrollView>
         </View>
 
-        {/* Order History Sectie */}
+        {/* Order History section */}
         <View style={styles.orderHistorySection}>
           <TouchableOpacity style={styles.sectionHeader}>
             <Text style={styles.orderHistoryTitle}>ORDER HISTORY</Text>
             <Ionicons name="chevron-forward" size={20} color="#333" />
           </TouchableOpacity>
-          {/* Order history kan hier blijven zoals het is */}
         </View>
 
-        {/* Settings Sectie */}
+        {/* Settings section */}
         <View style={styles.settingsSection}>
           <Text style={styles.settingsTitle}>SETTINGS</Text>
           <TouchableOpacity style={styles.settingsItem}>

@@ -86,12 +86,12 @@ const ShopScreen = () => {
       {/* Cart Text */}
       <TouchableOpacity
         style={styles.cartContainer}
-        onPress={() => navigation.navigate('CartPage')} // Navigate to CartPage
+        onPress={() => navigation.navigate('CartPage')}
       >
         <Text style={styles.cartText}>CART</Text>
         <Text style={styles.cartCount}>{cartItems.length.toString().padStart(2, '0')}</Text>
       </TouchableOpacity>
-      {/* Zoekbalk */}
+      {/* Searchbar */}
       <View style={styles.searchBarContainer}>
         <Ionicons name="search" size={20} color="#aaa" style={styles.searchIcon} />
         <TextInput
