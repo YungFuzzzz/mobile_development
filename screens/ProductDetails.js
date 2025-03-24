@@ -1,16 +1,36 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, Image, StyleSheet, ScrollView, FlatList, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, Image, ScrollView, FlatList, Dimensions, TouchableOpacity, Modal, Pressable, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native';
 import { WishlistContext } from '../context/WishListContext';
+import { CartContext } from '../context/CartContext';
 
 const { height, width } = Dimensions.get('window');
 
 const ProductDetails = ({ route }) => {
   const { wishlist, toggleWishlist } = useContext(WishlistContext);
+  const { addToCart } = useContext(CartContext);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedSize, setSelectedSize] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
   const product = route?.params?.product || {};
   const sku = product.skus?.[0]?.fieldData || {};
   const productFieldData = product.product?.fieldData || {};
+
+  const sizeOptions =
+    product.category === 'Sneakers'
+      ? ['39', '40', '41', '42', '43', '44', '45', '46']
+      : ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL'];
+
+  const handleAddToCart = () => {
+    if (selectedSize) {
+      addToCart({ ...product, size: selectedSize });
+      setIsModalVisible(false);
+      setSelectedSize(null);
+    } else {
+      alert('Please select a size before adding to cart.');
+    }
+  };
 
   const images = [
     sku['main-image']?.url,
@@ -43,7 +63,7 @@ const ProductDetails = ({ route }) => {
               </View>
             )}
           />
-          {/* Paginapunten */}
+          {/* Pagination dots */}
           <View style={styles.pagination}>
             {images.map((_, index) => (
               <View
@@ -67,7 +87,10 @@ const ProductDetails = ({ route }) => {
 
         {/* Buttons */}
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.cartButton}>
+          <TouchableOpacity
+            style={styles.cartButton}
+            onPress={() => setIsModalVisible(true)}
+          >
             <Text style={styles.buttonText}>Add to Cart</Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -87,6 +110,50 @@ const ProductDetails = ({ route }) => {
             </Text>
           </TouchableOpacity>
         </View>
+
+        {/* Size selection modal */}
+        <Modal
+          visible={isModalVisible}
+          transparent={true}
+          animationType="slide"
+          onRequestClose={() => setIsModalVisible(false)}
+        >
+          <Pressable
+            style={styles.modalOverlay}
+            onPress={() => setIsModalVisible(false)}
+          >
+            <Pressable style={styles.modalContent}>
+              <Text style={styles.modalTitle}>Select Size</Text>
+              <View style={styles.sizeOptionsContainer}>
+                {sizeOptions.map((size) => (
+                  <TouchableOpacity
+                    key={size}
+                    style={[
+                      styles.sizeOption,
+                      selectedSize === size && styles.selectedSizeOption,
+                    ]}
+                    onPress={() => setSelectedSize(size)}
+                  >
+                    <Text
+                      style={[
+                        styles.sizeOptionText,
+                        selectedSize === size && styles.selectedSizeOptionText,
+                      ]}
+                    >
+                      {size}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+              <TouchableOpacity
+                style={styles.confirmButton}
+                onPress={handleAddToCart}
+              >
+                <Text style={styles.confirmButtonText}>CONFIRM</Text>
+              </TouchableOpacity>
+            </Pressable>
+          </Pressable>
+        </Modal>
       </ScrollView>
     </SafeAreaView>
   );
@@ -197,6 +264,60 @@ const styles = StyleSheet.create({
   },
   wishlistButtonTextActive: {
     color: '#000',
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    width: '80%',
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 20,
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontFamily: 'MetropolisBold',
+    marginBottom: 20,
+  },
+  sizeOptionsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    marginBottom: 20,
+  },
+  sizeOption: {
+    borderWidth: 1,
+    borderColor: '#000',
+    borderRadius: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    margin: 5,
+  },
+  selectedSizeOption: {
+    backgroundColor: '#000',
+  },
+  sizeOptionText: {
+    fontSize: 14,
+    fontFamily: 'MetropolisRegular',
+    color: '#000',
+  },
+  selectedSizeOptionText: {
+    color: '#fff',
+  },
+  confirmButton: {
+    backgroundColor: '#000',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  confirmButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontFamily: 'MetropolisBold',
   },
 });
 

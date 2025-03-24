@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, ScrollView, TouchableOpacity, Text, Modal, Pressable, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import Card from '../components/ProductCard';
 import { API_URL, API_KEY } from '@env';
+import { CartContext } from '../context/CartContext';
 
 const categoryNames = {
   "": "All categories",
@@ -18,6 +19,7 @@ const categoryNames = {
 
 const ShopScreen = () => {
   const navigation = useNavigation();
+  const { cartItems } = useContext(CartContext);
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -81,6 +83,14 @@ const ShopScreen = () => {
 
   return (
     <View style={styles.container}>
+      {/* Cart Text */}
+      <TouchableOpacity
+        style={styles.cartContainer}
+        onPress={() => navigation.navigate('CartPage')} // Navigate to CartPage
+      >
+        <Text style={styles.cartText}>CART</Text>
+        <Text style={styles.cartCount}>{cartItems.length.toString().padStart(2, '0')}</Text>
+      </TouchableOpacity>
       {/* Zoekbalk */}
       <View style={styles.searchBarContainer}>
         <Ionicons name="search" size={20} color="#aaa" style={styles.searchIcon} />
@@ -231,6 +241,23 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingTop: 50,
     paddingHorizontal: 15,
+  },
+  cartContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  cartText: {
+    fontSize: 16,
+    fontFamily: 'MetropolisBold',
+    color: '#000',
+    marginRight: 5,
+  },
+  cartCount: {
+    fontSize: 16,
+    fontFamily: 'MetropolisBold',
+    color: '#000',
   },
   searchBarContainer: {
     flexDirection: 'row',

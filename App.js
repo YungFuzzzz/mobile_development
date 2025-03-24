@@ -10,7 +10,9 @@ import HomeScreen from './screens/HomeScreen';
 import ProductDetails from './screens/ProductDetails';
 import ProfileScreen from './screens/ProfileScreen';
 import ShopScreen from './screens/ShopScreen';
+import CartPage from './screens/CartPage'; // Import CartPage
 import { WishlistProvider } from './context/WishListContext';
+import { CartProvider } from './context/CartContext'; // Import CartProvider
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -44,6 +46,11 @@ const ShopStack = () => (
         ),
       })}
     />
+    <Stack.Screen
+      name="CartPage"
+      component={CartPage}
+      options={{ title: 'Your Cart' }} // Add CartPage to the stack
+    />
   </Stack.Navigator>
 );
 
@@ -59,40 +66,42 @@ export default function App() {
 
   return (
     <WishlistProvider>
-      <NavigationContainer>
-        <Tab.Navigator
-          initialRouteName="Home"
-          screenOptions={({ route }) => ({
-            tabBarLabel: ({ focused }) => (
-              <View style={styles.tabContainer}>
-                <Text style={[styles.tabLabel, focused && styles.tabLabelFocused]}>
-                  {route.name.toUpperCase()}
-                </Text>
-                {focused && <View style={styles.dot} />}
-              </View>
-            ),
-            tabBarStyle: styles.tabBar,
-            tabBarShowLabel: true,
-            tabBarIcon: () => null,
-          })}
-        >
-          <Tab.Screen
-            name="Home"
-            component={HomeStack}
-            options={{ headerShown: false }}
-          />
-          <Tab.Screen
-            name="Shop"
-            component={ShopStack}
-            options={{ headerShown: false }}
-          />
-          <Tab.Screen
-            name="Profile"
-            component={ProfileScreen}
-            options={{ headerShown: false }}
-          />
-        </Tab.Navigator>
-      </NavigationContainer>
+      <CartProvider> {/* Wrap the app with CartProvider */}
+        <NavigationContainer>
+          <Tab.Navigator
+            initialRouteName="Home"
+            screenOptions={({ route }) => ({
+              tabBarLabel: ({ focused }) => (
+                <View style={styles.tabContainer}>
+                  <Text style={[styles.tabLabel, focused && styles.tabLabelFocused]}>
+                    {route.name.toUpperCase()}
+                  </Text>
+                  {focused && <View style={styles.dot} />}
+                </View>
+              ),
+              tabBarStyle: styles.tabBar,
+              tabBarShowLabel: true,
+              tabBarIcon: () => null,
+            })}
+          >
+            <Tab.Screen
+              name="Home"
+              component={HomeStack}
+              options={{ headerShown: false }}
+            />
+            <Tab.Screen
+              name="Shop"
+              component={ShopStack}
+              options={{ headerShown: false }}
+            />
+            <Tab.Screen
+              name="Profile"
+              component={ProfileScreen}
+              options={{ headerShown: false }}
+            />
+          </Tab.Navigator>
+        </NavigationContainer>
+      </CartProvider>
     </WishlistProvider>
   );
 }
