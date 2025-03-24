@@ -32,7 +32,7 @@ const HomeScreen = () => {
             style={styles.blogPostImage}
             resizeMode="cover"
           />
-          <Text style={styles.blogPostTitle}>Balenciaga winter '25 is here</Text>
+          <Text style={styles.blogPostTitle}>BALENCIAGA WINTER '25 IS HERE</Text>
           <Text style={styles.blogPostDescription}>
             Demna has done it again. This time, he introduced a collaboration with Puma and brought street style to the runway. 
             The spectacle took place in a huge black maze and the looks reflected on what Demna saw people wear on the streets.
@@ -40,6 +40,42 @@ const HomeScreen = () => {
           <TouchableOpacity style={styles.readButton}>
             <Text style={styles.readButtonText}>READ</Text>
           </TouchableOpacity>
+        </View>
+
+        {/* Additional Blogposts */}
+        <View style={styles.blogPostSection}>
+          <Image
+            source={require('../assets/images/japan.webp')}
+            style={styles.blogPostImage}
+            resizeMode="cover"
+          />
+          <Text style={styles.blogPostTitle}>LOOK WHAT'S TRENDING IN JAPAN RIGHT NOW!</Text>
+          <Text style={styles.blogPostDescription}>
+            Japan is setting trends once again. From oversized silhouettes to bold patterns, discover what’s making waves in the fashion world.
+          </Text>
+          <TouchableOpacity style={styles.readButton}>
+            <Text style={styles.readButtonText}>READ</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.blogPostSection}>
+          <Image
+            source={require('../assets/images/cleanup.webp')}
+            style={styles.blogPostImage}
+            resizeMode="cover"
+          />
+          <Text style={styles.blogPostTitle}>WINTER IS OVER! CLEAN OUT THAT CLOSET NOW!</Text>
+          <Text style={styles.blogPostDescription}>
+            Spring is here, and it’s time to refresh your wardrobe. Learn how to declutter and make space for the latest trends.
+          </Text>
+          <TouchableOpacity style={styles.readButton}>
+            <Text style={styles.readButtonText}>READ</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Footer Section */}
+        <View style={styles.footer}>
+          <Text style={styles.footerText}>MADE BY VICES</Text>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -114,12 +150,23 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     paddingVertical: 10,
     paddingHorizontal: 20,
+    marginBottom: 24,
   },
   readButtonText: {
     color: '#fff',
     fontSize: 14,
     fontFamily: 'MetropolisBold',
     textTransform: 'uppercase',
+  },
+  footer: {
+    marginTop: 20,
+    alignItems: 'center',
+    paddingVertical: 10,
+  },
+  footerText: {
+    fontSize: 14,
+    fontFamily: 'MetropolisRegular',
+    color: '#888',
   },
 });
 
