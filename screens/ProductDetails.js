@@ -40,7 +40,7 @@ const ProductDetails = ({ route }) => {
   const brand = productFieldData.brand || 'No brand available';
   const name = productFieldData.name || 'No name available';
   const description = productFieldData.description || 'No description available';
-  const price = sku.price?.value ? `$${(sku.price.value / 100).toFixed(2)}` : 'N/A';
+  const price = sku.price?.value ? `€${(sku.price.value / 100).toFixed(2)}` : 'N/A';
 
   return (
     <SafeAreaView style={styles.container}>
