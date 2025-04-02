@@ -23,7 +23,8 @@
     "react-native": "0.76.7",
     "react-native-dotenv": "^3.4.11",
     "react-native-safe-area-context": "^5.2.0",
-    "react-native-screens": "^4.7.0"
+    "react-native-screens": "^4.7.0",
+    "semver": "7.5.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
