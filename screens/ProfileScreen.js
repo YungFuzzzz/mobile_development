@@ -65,7 +65,7 @@ const ProfileScreen = () => {
                   <Text style={styles.orderDate}>Date: {order.date}</Text>
                   <Text style={styles.orderTotal}>Total: €{order.total.toFixed(2)}</Text>
                   <FlatList
-                    data={order.items}
+                    data={order.items.slice(0, 3)}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item }) => (
                       <View style={styles.orderProduct}>
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   wishlistTitle: {
-    fontSize: 20,
+    fontSize: 24,
     fontFamily: 'MetropolisBold',
   },
   wishlistScroll: {
@@ -159,26 +159,24 @@ const styles = StyleSheet.create({
   wishlistImage: {
     width: 200,
     height: 200,
-    borderRadius: 10,
     marginBottom: 5,
   },
   wishlistItemBrand: {
     fontSize: 14,
     fontFamily: 'MetropolisBold',
     textAlign: 'left',
-    marginTop: 5,
   },
   wishlistItemName: {
     fontSize: 12,
     fontFamily: 'MetropolisRegular',
     textAlign: 'left',
-    marginTop: 2,
+    marginTop: 4,
   },
   wishlistItemPrice: {
     fontSize: 12,
     fontFamily: 'MetropolisRegular',
     textAlign: 'left',
-    marginTop: 2,
+    marginTop: 4,
     color: '#000',
   },
   emptyWishlistText: {
@@ -190,10 +188,10 @@ const styles = StyleSheet.create({
   },
   orderHistorySection: {
     width: '100%',
-    marginTop: 30,
+    marginTop: 64,
   },
   orderHistoryTitle: {
-    fontSize: 20,
+    fontSize: 24,
     fontFamily: 'MetropolisBold',
   },
   orderHistoryScroll: {
@@ -205,8 +203,8 @@ const styles = StyleSheet.create({
   },
   orderDate: {
     fontSize: 14,
-    fontFamily: 'MetropolisBold',
-    marginBottom: 5,
+    fontFamily: 'MetropolisRegular',
+    marginBottom: 4,
   },
   orderTotal: {
     fontSize: 14,
@@ -219,8 +217,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   orderProductImage: {
-    width: 60,
-    height: 60,
+    width: 72,
+    height: 72,
     marginRight: 10,
   },
   orderProductName: {
@@ -236,10 +234,10 @@ const styles = StyleSheet.create({
   },
   settingsSection: {
     width: '100%',
-    marginTop: 30,
+    marginTop: 64,
   },
   settingsTitle: {
-    fontSize: 20,
+    fontSize: 24,
     fontFamily: 'MetropolisBold',
     marginBottom: 10,
   },

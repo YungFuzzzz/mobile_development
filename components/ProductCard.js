@@ -5,7 +5,7 @@ const ProductCard = ({ imageSource, title, price }) => {
   return (
     <View style={styles.card}>
       <Image 
-        source={imageSource} 
+        source={typeof imageSource === 'string' ? { uri: imageSource } : imageSource} 
         style={styles.image} 
         resizeMode="contain" 
       />
